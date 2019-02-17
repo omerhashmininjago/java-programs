@@ -20,7 +20,7 @@ public class BuildIphone {
         AppleIphone5 appleIphone5 = new AppleIphone5(1, 4, 10, 8, 4, true);
         //Will override as its Objects behavior - Runtime Realization
         System.out.println(appleIphone5.about());
-        //This one is a little different than the above example -
+        //This one is a little different than the above example1 -
         //here the object created belongs to subclass and not the parent class
         //Below three will override the class behavior - Enforced at Compiletime
         appleIphone5.capturePhoto();
