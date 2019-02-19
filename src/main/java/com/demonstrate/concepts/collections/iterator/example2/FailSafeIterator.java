@@ -1,4 +1,4 @@
-package com.demonstrate.concepts.iterator.example2;
+package com.demonstrate.concepts.collections.iterator.example2;
 
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;

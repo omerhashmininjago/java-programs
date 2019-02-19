@@ -1,6 +1,5 @@
-package com.demonstrate.concepts.iterator.example1;
+package com.demonstrate.concepts.collections.iterator.example1;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
