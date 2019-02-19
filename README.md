@@ -15,3 +15,12 @@ In this repository I will demonstrating concepts of Java using small examples
   a. Basic Enum
   b. Creating Singleton using an Enum
   c. Creating a Factory using an Enum
+5. Serialization
+  a. serialVersionUID
+  b. Parent class is not implementing Serializable, it should have no args constructor
+  c. Reference to a Class - how Serialization works if Reference implements Serializable interface or not
+  d. Handle Serialization on own rather than letting JVM do it
+6. Cloneable
+  a. Shallow clone
+  b. Deep clone
+  
