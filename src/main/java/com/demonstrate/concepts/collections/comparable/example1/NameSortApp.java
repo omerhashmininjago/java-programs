@@ -18,5 +18,9 @@ public class NameSortApp {
         List<Name> names = Arrays.asList(nameArray);
         Collections.sort(names);
         System.out.println(names);
+
+        //Sort in reverse natural order
+        Collections.sort(names, Collections.reverseOrder());
+        System.out.println(names);
     }
 }

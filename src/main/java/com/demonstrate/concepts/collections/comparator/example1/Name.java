@@ -1,10 +1,10 @@
-package com.demonstrate.concepts.collections.comparable.example1;
+package com.demonstrate.concepts.collections.comparator.example1;
 
 /**
  * Comparable naturally orders the collection
  *
  */
-public final class Name implements Comparable<Name> {
+public class Name implements Comparable<Name> {
     private final String firstName, lastName;
 
     public Name(String firstName, String lastName) {
@@ -17,11 +17,11 @@ public final class Name implements Comparable<Name> {
         this.lastName = lastName;
     }
 
-    public String firstName() {
+    public String getFirstName() {
         return firstName;
     }
 
-    public String lastName() {
+    public String getLastName() {
         return lastName;
     }
 
