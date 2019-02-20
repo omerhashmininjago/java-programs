@@ -23,4 +23,5 @@ In this repository I will demonstrating concepts of Java using small examples
 6. Cloneable
   a. Shallow clone
   b. Deep clone
-  
+7. Comparable and Comparator
+8. Fail-Fast and Fail-Safe Iterators
