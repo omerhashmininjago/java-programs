@@ -1,7 +1,11 @@
 package com.demonstrate.concepts.cloneable.example2;
 
 /**
- * Deep Copy demonstration
+ * Deep Copy demonstration using Object.clone()
+ *
+ * 1. implementing Cloneable interface in the Class in question and in all references
+ * 2. Overriding the clone method in the Class in question and in all references
+ *
  */
 public class Application {
 

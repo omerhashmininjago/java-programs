@@ -33,16 +33,13 @@ public class Employee implements Cloneable {
     /**
      * DeepCopy demonstration
      *
-     * Clone of Employee will have a replica of Address (not same reference)
      * @return
      * @throws CloneNotSupportedException
      */
     @Override
     protected Object clone() throws CloneNotSupportedException {
         Employee employee = (Employee) super.clone();
-        Address address = new Address();
-        address.setTown(employee.getAddress().getTown());
-        employee.setAddress(address);
+        employee.setAddress((Address) employee.getAddress().clone()); // Here we are making a deep copy of Address
         return employee;
     }
 }
