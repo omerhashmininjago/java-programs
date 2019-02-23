@@ -3,7 +3,7 @@ package com.demonstrate.concepts.multhithreading.example3;
 import java.util.List;
 import java.util.Queue;
 
-import static java.lang.Thread.interrupted;
+import static java.lang.Thread.currentThread;
 
 public class Producer implements Runnable {
 
@@ -26,8 +26,8 @@ public class Producer implements Runnable {
                     try {
                         lock.wait();
                     } catch (InterruptedException e) {
-                        System.out.println("Producer Thread interrupted");
-                        interrupted();
+                        System.out.println("Order Thread interrupted");
+                        currentThread().interrupt();
                     }
                 }
                 System.out.println(name + " is ready for consumption");

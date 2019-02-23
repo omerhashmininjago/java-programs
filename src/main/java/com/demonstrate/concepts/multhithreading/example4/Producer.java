@@ -1,10 +1,9 @@
 package com.demonstrate.concepts.multhithreading.example4;
 
 import java.util.List;
-import java.util.Queue;
 import java.util.concurrent.BlockingQueue;
 
-import static java.lang.Thread.interrupted;
+import static java.lang.Thread.currentThread;
 
 public class Producer implements Runnable {
 
@@ -23,7 +22,7 @@ public class Producer implements Runnable {
             try {
                 buffer.put(name);
             } catch (InterruptedException e) {
-                interrupted();
+                currentThread().interrupt();
             }
             System.out.println(name + " is ready for consumption");
         });

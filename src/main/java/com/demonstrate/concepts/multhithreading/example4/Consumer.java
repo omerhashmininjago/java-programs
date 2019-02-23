@@ -1,13 +1,11 @@
 package com.demonstrate.concepts.multhithreading.example4;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 
 import static java.lang.Thread.currentThread;
-import static java.lang.Thread.interrupted;
 
 public class Consumer implements Runnable {
 
@@ -29,7 +27,7 @@ public class Consumer implements Runnable {
             try {
                 name = buffer.take();
             } catch (InterruptedException e) {
-                interrupted();
+                currentThread().interrupt();
             }
             if (Objects.nonNull(name)) {
                 if (this.name.equals(name)) {
