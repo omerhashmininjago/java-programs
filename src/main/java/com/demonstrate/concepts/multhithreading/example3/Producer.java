@@ -7,8 +7,8 @@ import static java.lang.Thread.interrupted;
 
 public class Producer implements Runnable {
 
-    private Queue<Name> buffer;
-    private Object lock;
+    private final Queue<Name> buffer;
+    private final Object lock;
     private List<Name> nameList;
 
     public Producer(Queue<Name> buffer, Object lock, List<Name> nameList) {

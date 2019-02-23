@@ -33,7 +33,7 @@ public class Application {
     }
 
     private static List<Name> populateDataForProducer(List<Name> nameList) {
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 30; i++) {
             nameList.add(new Name("firstName" + i, "lastName" + i));
         }
         return nameList;

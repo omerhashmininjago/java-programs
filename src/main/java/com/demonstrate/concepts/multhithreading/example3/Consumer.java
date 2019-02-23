@@ -10,7 +10,7 @@ import static java.util.Objects.isNull;
 
 public class Consumer implements Runnable {
 
-    private Queue<Name> buffer;
+    private final Queue<Name> buffer;
     private final Object lock;
     private final Name name;
 
@@ -46,7 +46,5 @@ public class Consumer implements Runnable {
         }
         System.out.println("Consumer has performed its task; Below data was consumed");
         System.out.println(consumedData);
-        System.out.println("Remaining Data on the queue is below");
-        System.out.println(buffer);
     }
 }

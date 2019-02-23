@@ -7,15 +7,16 @@ import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 
 import static java.lang.Thread.currentThread;
+import static java.lang.Thread.interrupted;
 
 public class Consumer implements Runnable {
 
-    private BlockingQueue<Name> buffer;
+    private final BlockingQueue<Name> buffer;
     private final Name name;
 
     public Consumer(BlockingQueue<Name> buffer) {
         this.buffer = buffer;
-        this.name = new Name("firstName8", "lastName8");
+        this.name = new Name("firstName20", "lastName20");
     }
 
     @Override
@@ -24,7 +25,12 @@ public class Consumer implements Runnable {
         Set<Name> consumedData = new HashSet<>();
 
         while (!currentThread().isInterrupted()) {
-            Name name = buffer.poll();
+            Name name = null;
+            try {
+                name = buffer.take();
+            } catch (InterruptedException e) {
+                interrupted();
+            }
             if (Objects.nonNull(name)) {
                 if (this.name.equals(name)) {
                     System.out.println("Minimum Data consumed, going to interrupt Consumer Thread");
@@ -35,7 +41,5 @@ public class Consumer implements Runnable {
         }
         System.out.println("Consumer has performed its task; Below data was consumed");
         System.out.println(consumedData);
-        System.out.println("Remaining Data on the queue is below");
-        System.out.println(buffer);
     }
 }
