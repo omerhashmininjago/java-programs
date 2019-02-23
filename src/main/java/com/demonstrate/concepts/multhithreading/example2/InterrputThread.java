@@ -1,5 +1,7 @@
 package com.demonstrate.concepts.multhithreading.example2;
 
+import static java.lang.Thread.interrupted;
+
 public class InterrputThread {
 
     public static void main(String[] args) {
@@ -23,6 +25,7 @@ public class InterrputThread {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             // •If the thread is blocked, or waiting then the corresponding method will throw an InterruptedException
+            interrupted();
         }
         threadOne.interrupt();
         System.out.println(Thread.currentThread().getId() + " Thread One has been interrupted");
@@ -31,6 +34,7 @@ public class InterrputThread {
             threadOne.join();
         } catch (InterruptedException e) {
             // If the thread is blocked, or waiting then the corresponding method will throw an InterruptedException
+            interrupted();
         }
         System.out.println(Thread.currentThread().getId() + " Now main thread can continue on further activity");
 

@@ -1,8 +1,9 @@
 package com.demonstrate.concepts.multhithreading.example3;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
+
+import static java.lang.Thread.interrupted;
 
 public class Producer implements Runnable {
 
@@ -26,10 +27,10 @@ public class Producer implements Runnable {
                         lock.wait();
                     } catch (InterruptedException e) {
                         System.out.println("Producer Thread interrupted");
+                        interrupted();
                     }
                 }
                 System.out.println(name + " is ready for consumption");
-                //perform task
                 lock.notifyAll();
             }
         });

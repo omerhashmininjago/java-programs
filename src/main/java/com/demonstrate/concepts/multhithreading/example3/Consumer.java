@@ -5,6 +5,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import static java.lang.Thread.currentThread;
+import static java.lang.Thread.interrupted;
 import static java.util.Objects.isNull;
 
 public class Consumer implements Runnable {
@@ -31,6 +32,7 @@ public class Consumer implements Runnable {
                         lock.wait();
                     } catch (InterruptedException e) {
                         System.out.println("Consumer Thread Interrupted");
+                        interrupted();
                     }
                 }
                 Name name = buffer.poll();
