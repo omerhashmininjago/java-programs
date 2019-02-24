@@ -10,10 +10,11 @@ import static java.lang.Thread.sleep;
  * 2. ExecutorCompletionService prepares the orders
  * 3. Second Runnable displays Ready orders
  * 4. Third Runnable tells which orders have been collected
+ * 5. Using a CountDownLatch to make sure all orders are delivered before closing the restaurant.
  */
 public class FastFoodStore {
 
-    private static final CountDownLatch COUNT_DOWN_LATCH = new CountDownLatch(4);
+    private static final CountDownLatch RESTAURANT_CLOSED_FLAG = new CountDownLatch(4);
 
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
@@ -22,8 +23,8 @@ public class FastFoodStore {
         BlockingQueue<FoodPlate> foodPlatesReady = new ArrayBlockingQueue<>(10);
 
         BlockingQueue<FutureTask> orderStatus = new LinkedBlockingQueue<FutureTask>();
-        Thread counterOneRunnable = counterOneOpen(completionService, foodPlatesReady, orderStatus);
-        Thread counterTwoRunnable = counterTwoOpen(completionService, foodPlatesReady, orderStatus);
+        counterOneOpen(completionService, foodPlatesReady, orderStatus);
+        counterTwoOpen(completionService, foodPlatesReady, orderStatus);
 
         Thread orderDisplayRunnable = displayCompletedOrdersOnScreen(orderStatus);
 
@@ -31,11 +32,9 @@ public class FastFoodStore {
 
         sleep(20000);
         restaurantClosingTime(executorService);
-        counterOneRunnable.join();
-        counterTwoRunnable.join();
 
         allOrdersDelivered(foodPlatesReady, orderStatus, orderDisplayRunnable, ordersDelivered);
-        COUNT_DOWN_LATCH.await();
+        RESTAURANT_CLOSED_FLAG.await();
         System.out.println("Restaurant closed");
     }
 
@@ -48,35 +47,33 @@ public class FastFoodStore {
     }
 
     private static Thread ordersReady(BlockingQueue<FoodPlate> foodPlatesReady) {
-        CollectOrder collectOrder = new CollectOrder(foodPlatesReady, COUNT_DOWN_LATCH);
+        CollectOrder collectOrder = new CollectOrder(foodPlatesReady, RESTAURANT_CLOSED_FLAG);
         Thread ordersDelivered = new Thread(collectOrder);
         ordersDelivered.start();
         return ordersDelivered;
     }
 
     private static Thread displayCompletedOrdersOnScreen(BlockingQueue<FutureTask> orderStatus) {
-        OrderDisplayScreen orderDisplayScreen = new OrderDisplayScreen(orderStatus, COUNT_DOWN_LATCH);
+        OrderDisplayScreen orderDisplayScreen = new OrderDisplayScreen(orderStatus, RESTAURANT_CLOSED_FLAG);
         Thread orderDisplayRunnable = new Thread(orderDisplayScreen);
         orderDisplayRunnable.start();
         return orderDisplayRunnable;
     }
 
-    private static Thread counterTwoOpen(CompletionService<FoodPlate> completionService, BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus) {
-        Order counterTwo = new Order(completionService, foodPlatesReady, orderStatus, COUNT_DOWN_LATCH);
+    private static void counterTwoOpen(CompletionService<FoodPlate> completionService, BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus) {
+        Order counterTwo = new Order(completionService, foodPlatesReady, orderStatus, RESTAURANT_CLOSED_FLAG);
         Thread counterTwoRunnable = new Thread(counterTwo);
         counterTwoRunnable.start();
-        return counterTwoRunnable;
     }
 
-    private static Thread counterOneOpen(CompletionService<FoodPlate> completionService, BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus) {
-        Order counterOne = new Order(completionService, foodPlatesReady, orderStatus, COUNT_DOWN_LATCH);
+    private static void counterOneOpen(CompletionService<FoodPlate> completionService, BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus) {
+        Order counterOne = new Order(completionService, foodPlatesReady, orderStatus, RESTAURANT_CLOSED_FLAG);
         Thread counterOneRunnable = new Thread(counterOne);
         counterOneRunnable.start();
-        return counterOneRunnable;
     }
 
     private static void restaurantClosingTime(ExecutorService executorService) {
-        System.out.println("Restautant closing in some time, no new orders would be taken. Counter closed");
+        System.out.println("Restaurant closing in some time, no new orders would be taken. Counter closed");
         executorService.shutdown(); // Disable new tasks from being submitted
         try {
             // Wait a while for existing tasks to terminate
