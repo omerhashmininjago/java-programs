@@ -7,9 +7,9 @@ public class FoodPlate {
     private boolean isMainCourseReady;
     private boolean isDesertReady;
     private StaffName plateServerBy;
-    private double orderNumber;
+    private long orderNumber;
 
-    public FoodPlate(boolean isMainCourseReady, boolean isDesertReady, StaffName plateServerBy, double orderNumber) {
+    public FoodPlate(boolean isMainCourseReady, boolean isDesertReady, StaffName plateServerBy, long orderNumber) {
         this.isMainCourseReady = isMainCourseReady;
         this.isDesertReady = isDesertReady;
         this.plateServerBy = plateServerBy;
@@ -24,7 +24,7 @@ public class FoodPlate {
         return isDesertReady;
     }
 
-    public double getOrderNumber() {
+    public long getOrderNumber() {
         return orderNumber;
     }
 

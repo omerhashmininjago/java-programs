@@ -16,7 +16,7 @@ public class CollectOrder implements Runnable {
     @Override
     public void run() {
 
-        while (!currentThread().isInterrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             FoodPlate foodPlate = null;
             try {
                 foodPlate = foodPlatesBuffer.take();
@@ -25,13 +25,14 @@ public class CollectOrder implements Runnable {
             }
             if (Objects.nonNull(foodPlate)) {
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep((long) (Math.random() * 1000));
                 } catch (InterruptedException e) {
                     currentThread().interrupt();
                 }
                 System.out.println(foodPlate.getOrderNumber() + " is delivered");
-
             }
         }
+
+        System.out.println("All orders delivered");
     }
 }
