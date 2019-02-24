@@ -1,6 +1,7 @@
 package com.demonstrate.concepts.multhithreading.example5;
 
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 
@@ -8,10 +9,12 @@ import static java.lang.Thread.currentThread;
 
 public class OrderDisplayScreen implements Runnable {
 
-    private BlockingQueue<FutureTask> orderStatus;
+    private final BlockingQueue<FutureTask> orderStatus;
+    private final CountDownLatch countDownLatch;
 
-    public OrderDisplayScreen(BlockingQueue<FutureTask> orderStatus) {
+    public OrderDisplayScreen(BlockingQueue<FutureTask> orderStatus, CountDownLatch countDownLatch) {
         this.orderStatus = orderStatus;
+        this.countDownLatch = countDownLatch;
     }
 
     @Override
@@ -28,5 +31,6 @@ public class OrderDisplayScreen implements Runnable {
             }
         }
         System.out.println("All orders completed");
+        countDownLatch.countDown();
     }
 }

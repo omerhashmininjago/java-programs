@@ -13,6 +13,8 @@ import static java.lang.Thread.sleep;
  */
 public class FastFoodStore {
 
+    private static final CountDownLatch COUNT_DOWN_LATCH = new CountDownLatch(4);
+
     public static void main(String[] args) throws InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
         CompletionService<FoodPlate> completionService = new ExecutorCompletionService<>(executorService);
@@ -27,47 +29,47 @@ public class FastFoodStore {
 
         Thread ordersDelivered = ordersReady(foodPlatesReady);
 
-        sleep(10000);
+        sleep(20000);
         restaurantClosingTime(executorService);
         counterOneRunnable.join();
         counterTwoRunnable.join();
 
         allOrdersDelivered(foodPlatesReady, orderStatus, orderDisplayRunnable, ordersDelivered);
-
-        ordersDelivered.join();
+        COUNT_DOWN_LATCH.await();
         System.out.println("Restaurant closed");
     }
 
     private static void allOrdersDelivered(BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus, Thread orderDisplayRunnable, Thread ordersDelivered) {
-        while (foodPlatesReady.isEmpty() && orderStatus.isEmpty()) {
-            ordersDelivered.interrupt();
-            orderDisplayRunnable.interrupt();
+        while (!(foodPlatesReady.isEmpty() && orderStatus.isEmpty())) {
         }
+        System.out.println("All orders have been cooked, closing kitchen now.");
+        ordersDelivered.interrupt();
+        orderDisplayRunnable.interrupt();
     }
 
     private static Thread ordersReady(BlockingQueue<FoodPlate> foodPlatesReady) {
-        CollectOrder collectOrder = new CollectOrder(foodPlatesReady);
+        CollectOrder collectOrder = new CollectOrder(foodPlatesReady, COUNT_DOWN_LATCH);
         Thread ordersDelivered = new Thread(collectOrder);
         ordersDelivered.start();
         return ordersDelivered;
     }
 
     private static Thread displayCompletedOrdersOnScreen(BlockingQueue<FutureTask> orderStatus) {
-        OrderDisplayScreen orderDisplayScreen = new OrderDisplayScreen(orderStatus);
+        OrderDisplayScreen orderDisplayScreen = new OrderDisplayScreen(orderStatus, COUNT_DOWN_LATCH);
         Thread orderDisplayRunnable = new Thread(orderDisplayScreen);
         orderDisplayRunnable.start();
         return orderDisplayRunnable;
     }
 
     private static Thread counterTwoOpen(CompletionService<FoodPlate> completionService, BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus) {
-        Order counterTwo = new Order(completionService, foodPlatesReady, orderStatus);
+        Order counterTwo = new Order(completionService, foodPlatesReady, orderStatus, COUNT_DOWN_LATCH);
         Thread counterTwoRunnable = new Thread(counterTwo);
         counterTwoRunnable.start();
         return counterTwoRunnable;
     }
 
     private static Thread counterOneOpen(CompletionService<FoodPlate> completionService, BlockingQueue<FoodPlate> foodPlatesReady, BlockingQueue<FutureTask> orderStatus) {
-        Order counterOne = new Order(completionService, foodPlatesReady, orderStatus);
+        Order counterOne = new Order(completionService, foodPlatesReady, orderStatus, COUNT_DOWN_LATCH);
         Thread counterOneRunnable = new Thread(counterOne);
         counterOneRunnable.start();
         return counterOneRunnable;

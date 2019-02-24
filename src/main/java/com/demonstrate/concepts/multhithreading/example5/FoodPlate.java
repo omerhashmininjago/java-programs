@@ -2,26 +2,18 @@ package com.demonstrate.concepts.multhithreading.example5;
 
 import java.util.Objects;
 
-public class FoodPlate {
+public final class FoodPlate {
 
-    private boolean isMainCourseReady;
-    private boolean isDesertReady;
-    private StaffName plateServerBy;
-    private long orderNumber;
+    private final boolean isMainCourseReady;
+    private final boolean isDesertReady;
+    private final StaffName plateServerBy;
+    private final long orderNumber;
 
     public FoodPlate(boolean isMainCourseReady, boolean isDesertReady, StaffName plateServerBy, long orderNumber) {
         this.isMainCourseReady = isMainCourseReady;
         this.isDesertReady = isDesertReady;
         this.plateServerBy = plateServerBy;
         this.orderNumber = orderNumber;
-    }
-
-    public boolean isMainCourseReady() {
-        return isMainCourseReady;
-    }
-
-    public boolean isDesertReady() {
-        return isDesertReady;
     }
 
     public long getOrderNumber() {
@@ -53,10 +45,6 @@ public class FoodPlate {
     @Override
     public int hashCode() {
         return Objects.hash(isMainCourseReady, isDesertReady, plateServerBy, orderNumber);
-    }
-
-    public StaffName getPlateServerBy() {
-        return plateServerBy;
     }
 
 }

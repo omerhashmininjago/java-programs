@@ -2,6 +2,7 @@ package com.demonstrate.concepts.multhithreading.example5;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletionService;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.FutureTask;
 
 import static java.lang.Thread.currentThread;
@@ -11,12 +12,14 @@ public class Order implements Runnable {
 
     private final CompletionService<FoodPlate> foodPlateCompletionService;
     private final BlockingQueue<FoodPlate> ordersPrepared;
-    private BlockingQueue<FutureTask> orderStatus;
+    private final BlockingQueue<FutureTask> orderStatus;
+    private final CountDownLatch countDownLatch;
 
-    public Order(CompletionService<FoodPlate> foodPlateCompletionService, BlockingQueue<FoodPlate> ordersPrepared, BlockingQueue<FutureTask> orderStatus) {
+    public Order(CompletionService<FoodPlate> foodPlateCompletionService, BlockingQueue<FoodPlate> ordersPrepared, BlockingQueue<FutureTask> orderStatus, CountDownLatch countDownLatch) {
         this.foodPlateCompletionService = foodPlateCompletionService;
         this.ordersPrepared = ordersPrepared;
         this.orderStatus = orderStatus;
+        this.countDownLatch = countDownLatch;
     }
 
     @Override
@@ -34,5 +37,6 @@ public class Order implements Runnable {
             OrderInProgress orderInProgress = new OrderInProgress(new StaffName("Staff", staffName), ordersPrepared, orderNo);
             orderStatus.add((FutureTask) foodPlateCompletionService.submit(orderInProgress));
         }
+        countDownLatch.countDown();
     }
 }
