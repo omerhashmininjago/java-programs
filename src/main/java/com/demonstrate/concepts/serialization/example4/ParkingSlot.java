@@ -11,7 +11,33 @@ import java.io.Serializable;
  *
  *  Note - we would need to make sure that we use the exact same method signatures
  */
-public class ParkingSlot implements Serializable {
+public class ParkingSlot implements Serializable  {
+
+    private int slotNum;
+
+    private String vehicleType;
+
+    public ParkingSlot(int slotNum, String vehicleType) {
+        this.slotNum = slotNum;
+        this.vehicleType = vehicleType;
+    }
+
+    public int getSlotNum() {
+        return slotNum;
+    }
+
+    public String getVehicleType() {
+        return vehicleType;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer sb = new StringBuffer("ParkingSlot{");
+        sb.append("slotNum=").append(slotNum);
+        sb.append(", vehicleType='").append(vehicleType).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 
     private void readObject(java.io.ObjectInputStream stream) throws IOException, ClassNotFoundException {}
 
@@ -25,5 +51,4 @@ public class ParkingSlot implements Serializable {
         throw new NotSerializableException();
     }
 
-    private void readObjectNoData() throws ObjectStreamException {}
 }
