@@ -9,7 +9,10 @@ public class BasketBall implements Serializable {
 
     // Static fields do not take part in serialization
     // After deserialization this field will be set back to 2 i.e. default value
-    // Irrespective if had got its value changed before serialization;
+    // If the value of this field had changed to 10 before Serialization
+    // and the JVM was not restarted, the value be restored as 10 after deserialization
+    // But if the JVM got restarted, the value will be restored as 2 after deserialization
+    // Any changes after serialization will be not considered
     private static long baskets = 2;
 
     private int courtLength = 30;

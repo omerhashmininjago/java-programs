@@ -34,12 +34,7 @@ public enum VehicleFactory {
     }
 
     public static Vehicle getVehicleInstance(VehicleFactory vehicleInstance) throws Exception {
-        for (VehicleFactory type : VehicleFactory.values()) {
-            if (vehicleInstance.equals(type)) {
-                return type.vehicle;
-            }
-        }
-        throw new Exception("Invalid Vehicle - Here is the list of valid Vehicles " + Arrays.toString(VehicleFactory.values()));
+        return vehicleInstance.vehicle;
     }
 }
 
