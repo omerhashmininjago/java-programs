@@ -8,6 +8,7 @@ public class EmployeeSortApp {
     private static final Comparator<Employee> SENIORITY_ORDER =
             (e1, e2) -> e2.getHireDate().compareTo(e1.getHireDate());
 
+    // Prefer this way - the comparing method does a NotNull check and throws an NPE
     private static final Comparator<Employee> AGE_ORDER = Comparator
             .comparing(Employee::getAge);
 
