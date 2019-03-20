@@ -68,3 +68,6 @@ Question 21 : Does Having clause only work with range?
 Question 22 : Lets say, we have a bean Abcd with scope session, the spring container comes up.
 
 The controller has a Abcd, how does spring construct the controller as the bean Abcd is not yet created
+
+Question 23 : Lets say we have 100 Controllers, and we can expect a common DB exception being thrown in many of these contorllers.
+How will we ensure for a same exception, we always sent a common Response Code back to the client
