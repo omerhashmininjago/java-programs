@@ -62,3 +62,9 @@ Question 18 : What is difference between Put and Post
 Question 19 : What does Patch do
 
 Question 20 : How does Having clause work in Oracle
+
+Question 21 : Does Having clause only work with range?
+
+Question 22 : Lets say, we have a bean Abcd with scope session, the spring container comes up.
+
+The controller has a Abcd, how does spring construct the controller as the bean Abcd is not yet created
