@@ -18,7 +18,7 @@ public class Application {
             System.out.println("str equals headStr");
         }
         if (str.equals(stringBuilder)) {
-            System.out.println("str equals headStr");
+            System.out.println("str equals stringBuilder");
         }
         if (str.equals(stringBuffer)) {
             System.out.println("str equals stringBuffer");
@@ -33,6 +33,21 @@ public class Application {
             System.out.println("stringBuffer equals stringBuilder");
         }
 
+        if (str.equals(stringBuilder.toString())) {
+            System.out.println("str equals stringBuilder toString");
+        }
+        if (str.equals(stringBuffer.toString())) {
+            System.out.println("str equals stringBuffer toString");
+        }
+        if (heapStr.equals(stringBuilder.toString())) {
+            System.out.println("heapStr equals stringBuilder toString");
+        }
+        if (heapStr.equals(stringBuffer.toString())) {
+            System.out.println("heapStr equals stringBuffer toString");
+        }
+        if (stringBuffer.toString().equals(stringBuilder.toString())) {
+            System.out.println("stringBuffer toString equals stringBuilder toString");
+        }
 
     }
 }
